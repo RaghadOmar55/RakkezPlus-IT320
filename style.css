@@ -1,0 +1,285 @@
+
+/********************************HOME PAGE *************************************************/
+
+
+.home-body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #F5F5F5;
+    color: #2E2E2E;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.home-navbar {
+    background-color: white;
+    padding: 15px 80px;
+	
+}
+
+.home-logo {
+    display: inline-block;
+}
+
+.home-logo img {
+    vertical-align: middle;
+}
+
+
+
+.home-nav-links {
+    float: right;
+margin-top: 17px;
+}
+.home-nav-links a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #2E2E2E;
+    font-weight: bold;
+}
+.home-nav-links a:hover {
+    color: #3A78A1;
+}
+
+.home-hero {
+    text-align: center;
+    padding: 120px 20px;
+    flex: 1;
+    background-color: #EEF5F9;
+}
+.home-hero h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+.home-hero p {
+    margin-bottom: 25px;
+}
+.home-btn {
+    padding: 10px 22px;
+    margin: 5px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.home-btn-primary {
+    background-color: #F28C28;
+    color: white;
+}
+
+.home-btn-primary:hover {
+    background-color: #d9771f;
+}
+
+.home-btn-secondary {
+    background-color: #3A78A1;
+    color: white;
+}
+
+.home-btn-secondary:hover {
+    background-color: #7FAEC6;
+}
+
+/* Footer */
+ .footer {
+    text-align: center;
+    padding: 1px;
+    background-color: #FFF4CC;
+}
+
+/********************************LOGIN PAGE *************************************************/
+
+/******************************** LOGIN PAGE ********************************/
+
+.login-container {
+    text-align: center;
+    flex: 1;
+    width: 420px;
+    margin: 80px auto;
+    padding: 50px 30px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+}
+
+/* Subtitle */
+.login-subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.login-container label {
+    display: block;
+    width: 300px;
+    margin: 15px auto 5px auto;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Inputs */
+.login-container input {
+    display: block;
+    margin: 0 auto 10px auto;
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* Focus effect */
+.login-container input:focus {
+    border-color: #3A78A1;
+}
+
+/* Password box */
+.login-password-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    margin: 0 auto 10px auto;
+}
+
+.login-password-box input {
+    width: 260px;
+}
+
+/* Eye button */
+.login-password-box button {
+    width: 40px;
+    height: 39px;
+    margin-left: 1px;
+	margin-bottom: 10px;
+
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+}
+
+.login-password-box button:hover  {
+	
+	    background-color: #F2F2F2;
+
+}
+
+
+/* Buttons */
+.login-btn {
+    width: 300px;
+    padding: 10px;
+    margin: 5px auto;
+    border-radius: 8px;
+    font-weight: bold;
+    display: block;
+    background-color: #3A78A1;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #7FAEC6;
+}
+
+/* Admin button */
+.admin-btn {
+    background-color: #F28C28;
+}
+
+.admin-btn:hover {
+    background-color: #d9771f;
+}
+
+/******************************** SIGNUP PAGE ********************************/
+.signup-container {
+    text-align: center;
+    flex: 1;
+    width: 420px;
+    margin: 80px auto;
+    padding: 50px 30px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+}
+
+.signup-subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.signup-container label {
+    display: block;
+    width: 300px;
+    margin: 15px auto 5px auto;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+.signup-container input {
+    display: block;
+    margin: 0 auto 10px auto;
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.signup-container input:focus {
+    border-color: #3A78A1;
+}
+
+.signup-password-box {
+    display: flex;
+    width: 320px;
+    margin: 0 auto 10px auto;
+}
+
+.signup-password-box input {
+    width: 260px;
+}
+
+.signup-password-box button {
+    width: 40px;
+    height: 39px;
+    margin-left: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+}
+
+.signup-btn {
+    width: 300px;
+    padding: 10px;
+    margin: 5px auto;
+    border-radius: 8px;
+    font-weight: bold;
+    display: block;
+    background-color: #F28C28;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.signup-btn:hover {
+    background-color: #d9771f;
+}
+
+#signupMessage {
+    margin-top: 10px;
+    font-weight: bold;
+}
