@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Support - Rakkez+</title>
+
+<link rel="stylesheet" href="styler.css">
+</head>
+
+<body class="body">
+
+<!-- Navbar --> 
+<div class="navbar"> 
+<div class="logo"> 
+<a href="index.html"> 
+<img src="images/logo.jpeg" width="100"> </a> </div> 
+<div class="nav-links"> 
+<a href="index.html">Main</a> 
+<a href="home.html">Log Out</a> </div> </div>
+
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+<!-- SIDEBAR -->
+<div id="sidebar" class="sidebar">
+
+    <div class="sidebar-header">
+        <img src="images/profile.jpg">
+        <h3>Ranem</h3>
+    </div>
+
+    <div class="sidebar-links">
+        <a href="profile.html">Profile</a>
+        <a href="notifications.html">Notifications</a>
+        <a href="tips.html">Tips</a>
+        <a href="support.html">Support</a>
+    </div>
+
+    <div class="sidebar-footer">
+        <button class="logout-btn"><a href="home.html">Log Out</a></button>
+    </div>
+
+</div>
+
+
+<!-- OVERLAY -->
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+<!-- CONTENT -->
+<div class="support-container">
+
+    <h1 class="support-title">Support</h1>
+
+    <div class="support-card">
+        <h3>Contact Us</h3>
+        <p>If you need help or have any questions, feel free to contact us.</p>
+		<br>
+
+<div class="support-contact-item">
+    <span class="support-icon">✉️</span>
+    <p>support@rakkezplus.com</p>
+</div>
+
+<div class="support-contact-item">
+    <span class="support-icon">📱</span>
+    <p>+966 500000000</p>
+</div>
+    </div>
+
+    <div class="support-card">
+        <h3>FAQs</h3>
+
+        <p><strong>How can I improve my focus?</strong></p>
+        <p>Try using shorter study sessions and avoid distractions like your phone.</p>
+
+        <p><strong>Can I track my study sessions?</strong></p>
+        <p>Yes, the system allows you to monitor your sessions and interruptions.</p>
+
+        <p><strong>Who can I contact for issues?</strong></p>
+        <p>You can contact our support team using the email/phone above.</p>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>©️ Rakkez+.. Helping students build better study habits</p>
+</div>
+
+<script src="jsr.js"></script>
+
+</body>
+</html>
