@@ -3,28 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rakkez+ | Admin</title>
+  <title>Rakkez+ - Admin</title>
   <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- NAVBAR -->
-  <div class="admin-navbar">
-    <div class="admin-left">
-      <button class="admin-menu-btn" onclick="toggleAdminMenu()">☰</button>
+<div class="navbar"> 
+<div class="logo"> 
+<a href="admin.html"> 
+<img src="images/logo.jpeg" width="100"> </a> </div> 
+<div class="nav-links"> 
+<a href="admin.html">Main</a> 
+<a href="home.html">Log Out</a> </div> </div>
 
-      <div class="admin-logo">
-        <a href="main.html">
-          <img src="images/logo.jpeg" alt="Rakkez+ Logo">
-        </a>
-      </div>
-    </div>
-
-    <div class="admin-links">
-      <a href="main.html">Main</a>
-      <a href="home.html">Log Out</a>
-    </div>
-  </div>
+      <button class="menu-btn" onclick="toggleAdminMenu()">☰</button>
 
   <!-- SIDEBAR -->
   <div id="admin-sidebar" class="admin-sidebar">
@@ -34,11 +28,9 @@
     </div>
 
     <div class="admin-sidebar-links">
-      <a href="admin.html">Admin Page</a>
-      <a href="profile.html">Profile</a>
-      <a href="notifications.html">Notifications</a>
-      <a href="tips.html">Tips</a>
-      <a href="support.html">Support</a>
+        <a href="profile.html">Profile</a>
+		<a href="admin.html">Main</a>
+        <a href="support.html">Support</a>
     </div>
 
     <div class="admin-sidebar-footer">

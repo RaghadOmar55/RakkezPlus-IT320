@@ -3,39 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rakkez+ | Profile</title>
+  <title>Rakkez+ - Profile</title>
   <link rel="stylesheet" href="profile.css">
+      <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app-navbar">
-    <div class="app-left">
-      <button class="app-menu-btn" onclick="toggleProfileMenu()">☰</button>
+<div class="navbar"> 
+<div class="logo"> 
+<a href="index.html"> 
+<img src="images/logo.jpeg" width="100"> </a> </div> 
+<div class="nav-links"> 
+<a href="index.html">Main</a> 
+<a href="home.html">Log Out</a> </div> </div>
 
-      <div class="app-logo">
-        <a href="main.html">
-          <img src="images/logo.jpeg" alt="Rakkez+ Logo">
-        </a>
-      </div>
-    </div>
+<button class="menu-btn" onclick="toggleProfileMenu()">☰</button>
 
-    <div class="app-links">
-      <a href="main.html">Main</a>
-      <a href="home.html">Log Out</a>
-    </div>
-  </div>
 
   <div id="profile-sidebar" class="profile-sidebar">
     <div class="profile-sidebar-header">
       <img id="sidebar-profile-img" src="images/default.png" alt="Profile">
-      <h3 id="sidebar-profile-name">Alya</h3>
+      <h3 id="sidebar-profile-name">Ranem</h3>
     </div>
 
     <div class="profile-sidebar-links">
-      <a href="profile.html">Profile</a>
-      <a href="notifications.html">Notifications</a>
-      <a href="tips.html">Tips</a>
-      <a href="support.html">Support</a>
+        <a href="profile.html">Profile</a>
+		<a href="index.html">Main</a>
+		<a href="tips.html">Tips</a>
+        <a href="notifications.html">Notifications</a>
+        <a href="support.html">Support</a>
     </div>
 
     <div class="profile-sidebar-footer">
@@ -91,7 +87,7 @@
         <div class="profile-right">
           <label>Full Name</label>
           <div class="profile-inline">
-            <input id="profile-name" type="text" value="Alya Ahmed" readonly>
+            <input id="profile-name" type="text" value="Ranem Abdulaziz" readonly>
             <button class="profile-icon-btn" onclick="enableNameEdit()" type="button">
               <img src="images/edit icon.png" alt="Edit">
             </button>
@@ -99,7 +95,7 @@
           </div>
 
           <label>Email</label>
-          <input type="email" value="Alya@gmail.com" readonly>
+          <input type="email" value="RanemA@gmail.com" readonly>
 
           <div class="profile-password-header">
             <label>Current Password</label>
@@ -108,7 +104,7 @@
             </button>
           </div>
 
-          <input id="current-password" type="password" value="12345678" readonly>
+          <input id="current-password" type="password" value="Aq@12345678" readonly>
 
           <div id="password-edit-box" class="password-edit-box">
             <label>New Password</label>

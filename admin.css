@@ -13,59 +13,50 @@ body {
 }
 
 /* ===== NAVBAR ===== */
-.admin-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 70px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  z-index: 1200;
+.navbar {
+    background-color: white;
+    padding: 15px 80px 15px 80px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+    z-index: 900;
 }
 
-.admin-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
+.logo img {
+    max-width: 100px;
 }
 
-.admin-menu-btn {
-  font-size: 22px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  color: #2E2E2E;
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.admin-logo img {
-  height: 35px;
-  display: block;
+.nav-links a {
+    text-decoration: none;
+    color: #2E2E2E;
+    font-weight: bold;
 }
 
-.admin-links {
-  display: flex;
-  align-items: center;
-  gap: 25px;
+.nav-links a:hover {
+    color: #3A78A1;
 }
 
-.admin-links a {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-  font-size: 16px;
-}
+/* ===== MENU BUTTON ===== */
+.menu-btn {
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
 
-.admin-links a:hover {
-  color: #3A78A1;
+    z-index: 1300;
 }
 
 /* ===== SIDEBAR ===== */
@@ -242,18 +233,6 @@ body {
   font-weight: bold;
   color: #3A78A1;
   min-height: 20px;
-}
-
-/* ===== FOOTER ===== */
-.footer {
-  background-color: white;
-  padding: 15px;
-  text-align: center;
-  border-top: 1px solid #ddd;
-}
-
-.footer p {
-  margin: 0;
 }
 
 /* ===== RESPONSIVE ===== */

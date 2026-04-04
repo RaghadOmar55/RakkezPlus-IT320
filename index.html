@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rakkez+ | Deep Focus Zone</title>
+    <title>Rakkez+ - Deep Focus Zone</title>
     <style>
         /* ===== إعدادات الصفحة الأساسية ===== */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+			font-family: Arial, sans-serif;
             background-color: #F5F5F5;
             color: #2E2E2E;
             overflow-x: hidden;
@@ -23,35 +23,38 @@
 
         /* ===== زر المنيو الثابت (☰) ===== */
         .notification-menu-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-size: 28px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            z-index: 2000;
-            color: #2E2E2E;
+               position: fixed;
+		top: 15px;
+		left: 20px;
+		font-size: 24px;
+		background: none;
+		border: none;
+		cursor: pointer;
+
+		z-index: 1300;
         }
 
         /* ===== NAVBAR (بدون زر الهوم) ===== */
         .home-navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 15px 50px 15px 80px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+    background-color: white;
+    padding: 15px 80px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+    z-index: 900;
         }
+		
+	.home-nav-links {
+    display: flex;
+    gap: 15px;
+	}
         .home-nav-links a { 
-            text-decoration: none; 
-            color: #2E2E2E; 
-            margin-left: 20px; 
-            font-weight: 500; 
-            transition: 0.3s;
+    text-decoration: none;
+    color: #2E2E2E;
+    font-weight: bold;
         }
         .home-nav-links a:hover { color: #3A78A1; }
 
@@ -118,35 +121,36 @@
 
         .footer { background: white; text-align: center; padding: 15px; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); font-size: 14px; }
     </style>
+	    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+    <div class="home-navbar">
+        <div class="home-logo"><a href="index.html"><img src="images/logo.jpeg" width="100" alt="Logo"></a></div>
+        <div class="home-nav-links">
+            <a href="index.html" >Main</a>
+            <a href="home.html">Log Out</a>
+        </div>
+    </div>
+	
     <button class="notification-menu-btn" onclick="toggleMenu()">☰</button>
 
     <div id="notification-sidebar" class="notification-sidebar">
         <div class="notification-sidebar-header">
-            <img src="profile.jpg" alt="Profile">
-            <h3>Raghad</h3>
+            <img src="images/default.png" alt="Profile">
+            <h3>Ranem</h3>
         </div>
         <div class="notification-sidebar-links">
-            <a href="profile.html">Profile</a>
-            <a href="notifications.html">Notifications</a>
-            <a href="tips.html">Tips</a>
-            <a href="support.html">Support</a>
+        <a href="profile.html">Profile</a>
+		<a href="index.html">Main</a>
+		<a href="tips.html">Tips</a>
+        <a href="notifications.html">Notifications</a>
+        <a href="support.html">Support</a>
         </div>
         <div class="notification-sidebar-footer">
             <button class="notification-logout-btn" onclick="location.href='home.html'">Log Out</button>
         </div>
     </div>
     <div id="notification-overlay" class="notification-overlay" onclick="toggleMenu()"></div>
-
-    <div class="home-navbar">
-        <div class="home-logo"><a href="home.html"><img src="logo.jpeg" width="80" alt="Logo"></a></div>
-        <div class="home-nav-links">
-            <a href="index.html" style="color: #3A78A1;">Main</a>
-            <a href="home.html">Log Out</a>
-        </div>
-    </div>
 
     <div class="main-content">
         <div class="full-width-container">
@@ -184,10 +188,13 @@
                 <h4>Why did you pause?</h4>
                 <select id="reason-select">
                     <option value="">-- Select Reason --</option>
-                    <option value="Phone">Phone / Social Media</option>
+                    <option value="Phone">Mobile Phone</option>
+					<option value="Phone">Social Media</option>
                     <option value="People">Family / Friends</option>
                     <option value="Noise">Environmental Noise</option>
                     <option value="Hunger">Hunger / Thirst</option>
+					<option value="Phone">Fatigue</option>
+					<option value="Phone">Lack of Motivation</option>
                 </select>
                 <button class="btn btn-start" onclick="submitReason()">OK</button>
             </div>
