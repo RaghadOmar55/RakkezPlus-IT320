@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rakkez+ | Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="admin-navbar">
+    <div class="admin-left">
+      <button class="admin-menu-btn" onclick="toggleAdminMenu()">☰</button>
+
+      <div class="admin-logo">
+        <a href="main.html">
+          <img src="images/logo.jpeg" alt="Rakkez+ Logo">
+        </a>
+      </div>
+    </div>
+
+    <div class="admin-links">
+      <a href="main.html">Main</a>
+      <a href="home.html">Log Out</a>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div id="admin-sidebar" class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <img src="images/default.png" alt="Admin">
+      <h3>Admin</h3>
+    </div>
+
+    <div class="admin-sidebar-links">
+      <a href="admin.html">Admin Page</a>
+      <a href="profile.html">Profile</a>
+      <a href="notifications.html">Notifications</a>
+      <a href="tips.html">Tips</a>
+      <a href="support.html">Support</a>
+    </div>
+
+    <div class="admin-sidebar-footer">
+      <button class="admin-logout-btn" onclick="goAdminHome()">Log Out</button>
+    </div>
+  </div>
+
+  <div id="admin-overlay" class="admin-overlay" onclick="toggleAdminMenu()"></div>
+
+  <!-- PAGE -->
+  <main class="admin-page">
+    <div class="admin-card">
+      <h1>Admin Dashboard</h1>
+      <p class="admin-subtitle">View and manage registered user accounts.</p>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-users-table">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody id="admin-users-body">
+            <tr>
+              <td><img src="images/default.png" class="admin-user-photo" alt="User"></td>
+              <td>Alya Ahmed</td>
+              <td>alya@gmail.com</td>
+              <td><button class="admin-delete-btn" onclick="deleteAdminUser(this)">Delete</button></td>
+            </tr>
+
+            <tr>
+              <td><img src="images/medicine.png" class="admin-user-photo" alt="User"></td>
+              <td>Mohammed</td>
+              <td>Mohammed@gmail.com</td>
+              <td><button class="admin-delete-btn" onclick="deleteAdminUser(this)">Delete</button></td>
+            </tr>
+
+            <tr>
+              <td><img src="images/CS.png" class="admin-user-photo" alt="User"></td>
+              <td>Abdullah</td>
+              <td>abdullah@gmail.com</td>
+              <td><button class="admin-delete-btn" onclick="deleteAdminUser(this)">Delete</button></td>
+            </tr>
+
+            <tr>
+              <td><img src="images/eng.png" class="admin-user-photo" alt="User"></td>
+              <td>Reem</td>
+              <td>reem@gmail.com</td>
+              <td><button class="admin-delete-btn" onclick="deleteAdminUser(this)">Delete</button></td>
+            </tr>
+
+            <tr>
+              <td><img src="images/business.png" class="admin-user-photo" alt="User"></td>
+              <td>Jood</td>
+              <td>jood@gmail.com</td>
+              <td><button class="admin-delete-btn" onclick="deleteAdminUser(this)">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p id="admin-message" class="admin-message"></p>
+    </div>
+  </main>
+
+  <div class="footer">
+    <p>©️ Rakkez+.. Helping students build better study habits</p>
+  </div>
+
+  <script>
+    function toggleAdminMenu() {
+      document.getElementById("admin-sidebar").classList.toggle("active");
+      document.getElementById("admin-overlay").classList.toggle("active");
+    }
+
+    function goAdminHome() {
+      window.location.href = "home.html";
+    }
+
+    function deleteAdminUser(button) {
+      const userRow = button.closest("tr");
+      const userName = userRow.children[1].textContent;
+      const confirmDelete = confirm(`Are you sure you want to delete ${userName}?`);
+
+      if (confirmDelete) {
+        userRow.remove();
+        document.getElementById("admin-message").textContent = `${userName} was deleted successfully.`;
+      }
+    }
+  </script>
+</body>
+</html>
