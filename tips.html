@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tips Page</title>
+<meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tips - Rakkez+</title>
 
     <style>
-        .home-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #F5F5F5;
-    color: #2E2E2E;
-
+body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+	 font-size: 16px;
+	 font-family: Arial, sans-serif;
+	 background-color: #F5F5F5;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+.container {
+    flex: 1; 
 }
 .home-navbar {
     background-color: white;
@@ -44,7 +52,6 @@ margin-top: 17px;
     color: #3A78A1;
 }
 
-        /* Menu button (BLACK as requested) */
         /* ===== MENU BUTTON ===== */
 .notification-menu-btn {
     position: fixed;
@@ -181,23 +188,46 @@ margin-top: 17px;
         .list {
             margin-top: 30px;
             text-align: left;
-            width: 300px;
-            margin-left: auto;
-            margin-right: auto;
+			  width: 100%;
+    max-width: 900px;
+    
+    margin: 30px auto;
+    padding: 0 20px;
         }
+		
 
         .item {
-            background: white;
-            margin-bottom: 10px;
-            padding: 10px;
-            cursor: pointer;
-            border: 1px solid #ccc;
+
+    background: white;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+
+    border-radius: 16px;
+    border: none;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
         }
+		
+		.item:hover {
+    transform: translateY(-2px);
+    transition: 0.2s;
+}
 
         .tips {
             display: none;
             padding-left: 15px;
             margin-top: 10px;
+			margin-bottom: 10px;
+    border-left: 3px solid #3A78A1;
+    background-color: #f9fbfc;
+    border-radius: 8px;
+    padding: 10px;
+
         }
 
         .no-result {
@@ -205,46 +235,76 @@ margin-top: 17px;
             color: red;
         }
         
-        /* Rounded boxes */
+
 .item {
-    border-radius: 10px;
+    background: white;
+    margin-bottom: 15px;
+    padding: 15px;
+    cursor: pointer;
+
+    border-radius: 16px;
+    border: none;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* Arrow position */
 .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Arrow style */
 .arrow {
     font-size: 14px;
 }
 
-/* Tips smoother look */
 .tips {
     border-left: 3px solid #ccc;
 }
 
+.search-btn {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+
+    background-color: #3A78A1; /* أزرق */
+    color: white;
+
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #7FAEC6;
+}
+
+.search-btn:last-of-type {
+    background-color: #F28C28;
+}
+
+.search-container {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
     </style>
+	 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- Navbar -->
-<body class="home-body">
-
     <!-- Navbar -->
     <div class="home-navbar">
         <div class="home-logo">
-          <a href="home.html">  <img src="images/logo.jpeg" width="100"> </a>
+          <a href="index.html">  <img src="images/logo.jpeg" width="100"> </a>
            
         </div>
 
         <div class="home-nav-links">
-            <a href="main.html">Main</a>
-            <a href="logout.html">Log Out</a>
+            <a href="index.html">Main</a>
+            <a href="home.html">Log Out</a>
             
         </div>
     </div>
@@ -256,19 +316,20 @@ margin-top: 17px;
 <div id="notification-sidebar" class="notification-sidebar">
 
     <div class="notification-sidebar-header">
-        <img src="images/profile.jpg">
+        <img src="images/default.png">
         <h3>Ranem</h3>
     </div>
 
     <div class="notification-sidebar-links">
         <a href="profile.html">Profile</a>
+		<a href="index.html">Main</a>
+		<a href="tips.html">Tips</a>
         <a href="notifications.html">Notifications</a>
-        <a href="tips.html">Tips</a>
         <a href="support.html">Support</a>
     </div>
 
     <div class="notification-sidebar-footer">
-        <button class="notification-logout-btn">Log Out</button>
+        <button class="notification-logout-btn" onclick="location.href='home.html'">Log Out</button>
     </div>
 
 </div>
@@ -280,9 +341,11 @@ margin-top: 17px;
 
     <h2>Focus Tips</h2>
 
+    <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search interruption...">
     <button class="search-btn" onclick="searchTips()">Search</button>
     <button class="search-btn" onclick="resetSearch()">Reset</button>
+</div>
 
     <div id="list" class="list"></div>
 
