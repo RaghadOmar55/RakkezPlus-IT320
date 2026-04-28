@@ -2,29 +2,11 @@
 session_start();
 require_once "db_connection.php";
 
-
-if (!isset($_SESSION['user_id'])) {
-    die("Access denied");
-}
-
-$current_user_id = $_SESSION['user_id'];
-
-$stmt = $conn->prepare("SELECT isAdmin FROM users WHERE id = ?");
-$stmt->bind_param("i", $current_user_id);
-$stmt->execute();
-$adminCheckResult = $stmt->get_result();
-$currentUser = $adminCheckResult->fetch_assoc();
-
-if (!$currentUser || $currentUser["isAdmin"] != 1) {
-    die("Access denied");
-}
-
 $message = "";
 
-
+/* حذف مستخدم */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_user"])) {
     $delete_id = intval($_POST["delete_id"]);
-
 
     $stmt = $conn->prepare("DELETE FROM users WHERE id = ? AND isAdmin = 0");
     $stmt->bind_param("i", $delete_id);
@@ -33,9 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_user"])) {
     $message = "User deleted successfully.";
 }
 
-
+/* جلب كل المستخدمين غير الأدمن */
 $result = $conn->query("SELECT id, name, email, photo FROM users WHERE isAdmin = 0 ORDER BY id ASC");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
