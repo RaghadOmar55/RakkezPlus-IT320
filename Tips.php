@@ -1,7 +1,7 @@
 <?php
 include 'db_connection.php'; 
-  ini_set('display_errors', 1);
-  error_reporting(E_ALL);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 $query = "SELECT interruption.reason, tip.tip_text 
           FROM tip 
@@ -23,7 +23,6 @@ while($row = $result->fetch_assoc()){
 <title>Tips - Rakkez+</title>
 
 <style>
-
 body {
     display: flex;
     flex-direction: column;
@@ -36,14 +35,11 @@ body {
 h2 { font-size: 28px; }
 
 .container { 
-    
     flex: 1; 
-    
-     padding: 50px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 .home-navbar {
@@ -65,7 +61,6 @@ h2 { font-size: 28px; }
     font-weight: bold;
 }
 .home-nav-links a:hover { color: #3A78A1; }
-
 
 .notification-menu-btn {
     position: fixed;
@@ -114,11 +109,6 @@ h2 { font-size: 28px; }
     padding: 10px;
 }
 
-.notification-sidebar-footer {
-    margin-top: auto;
-    padding: 20px;
-}
-
 .notification-overlay {
     position: fixed;
     width: 100%;
@@ -128,12 +118,6 @@ h2 { font-size: 28px; }
 }
 
 .notification-overlay.active { display: block; }
-
-/* content */
-.container {
-    padding: 50px;
-    text-align: center;
-}
 
 input {
     padding: 10px;
@@ -155,10 +139,9 @@ input {
 
 .list {
     margin-top: 30px;
-     text-align: left;
-     width: 100%;
+    text-align: left;
+    width: 100%;
     max-width: 900px;
-    
     margin: 30px auto;
     padding: 0 20px;
 }
@@ -167,15 +150,12 @@ input {
     background: white;
     padding: 18px 20px;
     margin-bottom: 20px;
-
     border-radius: 16px;
-    border: none;
-
     box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 
 .tips {
@@ -191,8 +171,6 @@ input {
     margin-top: 20px;
     color: red;
 }
-
-.arrow { font-size: 14px; }
 
 .search-container {
     display: flex;
@@ -210,8 +188,8 @@ input {
     </div>
 
     <div class="home-nav-links">
-        <a href="index.html">Main</a>
-        <a href="home.html">Log Out</a>
+        <a href="index.php">Main</a>
+        <a href="home.php">Log Out</a>
     </div>
 </div>
 
@@ -225,10 +203,10 @@ input {
 
     <div class="notification-sidebar-links">
         <a href="profile.html">Profile</a>
-        <a href="index.html">Main</a>
-        <a href="tips.php">Tips</a>
-        <a href="notifications.html">Notifications</a>
-        <a href="support.html">Support</a>
+        <a href="index.php">Main</a>
+        <a href="Tips.php">Tips</a>
+        <a href="notifications.php">Notifications</a>
+        <a href="support.php">Support</a>
     </div>
 </div>
 
@@ -243,6 +221,7 @@ input {
         <button class="search-btn" onclick="resetSearch()">Reset</button>
     </div>
 
+    <div id="errorMsg" style="color:red; margin-top:10px;"></div>
     <div id="list" class="list"></div>
     <div id="noResult" class="no-result"></div>
 </div>
@@ -261,7 +240,7 @@ function renderList(filtered) {
     Object.keys(filtered).forEach(reason => {
         const div = document.createElement("div");
         div.className = "item";
-        div.innerHTML = reason + "<span class='arrow'>▼</span>";
+        div.innerHTML = reason + "<span>▼</span>";
 
         const tipsDiv = document.createElement("div");
         tipsDiv.className = "tips";
@@ -283,11 +262,15 @@ function renderList(filtered) {
 }
 
 function searchTips() {
-    const value = document.getElementById("searchInput").value.toLowerCase();
+    const value = document.getElementById("searchInput").value.trim().toLowerCase();
+    const error = document.getElementById("errorMsg");
+
+    error.textContent = "";
+    document.getElementById("noResult").textContent = "";
 
     if (value === "") {
-        renderList(data);
-        document.getElementById("noResult").textContent = "";
+        error.textContent = "Please enter a keyword before searching.";
+        document.getElementById("list").innerHTML = "";
         return;
     }
 
@@ -300,10 +283,10 @@ function searchTips() {
     });
 
     if (Object.keys(filtered).length === 0) {
-        document.getElementById("noResult").textContent = "No results found. Try a different keyword.";
+        document.getElementById("noResult").textContent =
+            "No results found. Try a different keyword.";
         document.getElementById("list").innerHTML = "";
     } else {
-        document.getElementById("noResult").textContent = "";
         renderList(filtered);
     }
 }
@@ -311,6 +294,7 @@ function searchTips() {
 function resetSearch() {
     document.getElementById("searchInput").value = "";
     document.getElementById("noResult").textContent = "";
+    document.getElementById("errorMsg").textContent = "";
     renderList(data);
 }
 
@@ -319,7 +303,15 @@ function toggleMenu() {
     document.getElementById("notification-overlay").classList.toggle("active");
 }
 
-renderList(data);
+window.onload = function() {
+    renderList(data);
+
+    document.getElementById("searchInput").addEventListener("keypress", function(e){
+        if (e.key === "Enter") {
+            searchTips();
+        }
+    });
+};
 </script>
 
 </body>
