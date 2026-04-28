@@ -41,7 +41,7 @@ $photo= mysqli_query($conn, "SELECT photo FROM users WHERE id= $userID");
 <div id="sidebar" class="sidebar">
 
     <div class="sidebar-header">
-        <img src="images/ <?php echo $photo; ?>">
+        <img src="images/<?php echo $photo; ?>">
         <h3><?php echo $name; ?></h3>
     </div>
 
