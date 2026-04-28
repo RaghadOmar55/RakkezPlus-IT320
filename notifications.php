@@ -9,8 +9,11 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] != "user") {
 
 $userID = (int) $_SESSION['userID'];
 
-$name= mysqli_query($conn, "SELECT name FROM user WHERE user_id= $userID");
-$photo= mysqli_query($conn, "SELECT photo FROM user WHERE user_id= $userID");
+$query = mysqli_query($conn, "SELECT name, photo FROM user WHERE user_id= $userID");
+$user = mysqli_fetch_assoc($query);
+
+$name = $user['name'];
+$photo = $user['photo'];
 $notifications= mysqli_query($conn, "SELECT * FROM notification WHERE user_id= $userID ORDER BY date DESC");
 
 ?>
