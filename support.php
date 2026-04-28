@@ -9,7 +9,7 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] != "user") {
 
 $userID = (int) $_SESSION['userID'];
 
-$query = mysqli_query($conn, "SELECT name, photo FROM user WHERE user_id= $userID");
+$query = mysqli_query($conn, "SELECT name, photo FROM users WHERE id= $userID");
 $user = mysqli_fetch_assoc($query);
 
 $name = $user['name'];
