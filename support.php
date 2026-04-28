@@ -1,3 +1,7 @@
+<?php 
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +18,10 @@
 <!-- Navbar --> 
 <div class="navbar"> 
 <div class="logo"> 
-<a href="index.html"> 
+<a href="index.php"> 
 <img src="images/logo.jpeg" width="100"> </a> </div> 
 <div class="nav-links"> 
-<a href="index.html">Main</a> 
+<a href="index.php">Main</a> 
 <a href="home.html">Log Out</a> </div> </div>
 
 <button class="menu-btn" onclick="toggleMenu()">☰</button>
