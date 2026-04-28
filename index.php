@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deep Focus Zone - Rakkez+</title>
     <style>
-        /* ===== إعدادات الصفحة الأساسية (التصميم اللي تحبينه) ===== */
+        /* ===== إعدادات الصفحة الأساسية  ===== */
         html, body {
             height: 100%;
             margin: 0;
@@ -54,7 +54,7 @@
         .notification-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.3); display: none; z-index: 2050; }
         .notification-overlay.active { display: block; }
 
-        /* ===== المحتوى الأساسي الواسع ===== */
+        /* ===== المحتوى الأساسي ===== */
         .main-content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .full-width-container {
             width: 100%; max-width: 800px; background: white; padding: 40px;
