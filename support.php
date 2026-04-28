@@ -1,5 +1,16 @@
 <?php 
+session_start();
+include ("db_connection.php");
 
+if (!isset($_SESSION['userID']) || $_SESSION['userType'] != "user") {
+    header("Location: login.php?error=You must login first");
+    exit();
+}
+
+$userID = (int) $_SESSION['userID'];
+
+$name= mysqli_query($conn, "SELECT name FROM users WHERE id= $userID");
+$photo= mysqli_query($conn, "SELECT photo FROM users WHERE id= $userID");
 ?>
 
 <!DOCTYPE html>
@@ -30,16 +41,16 @@
 <div id="sidebar" class="sidebar">
 
     <div class="sidebar-header">
-        <img src="images/default.png">
-        <h3>Ranem</h3>
+        <img src="images/ <?php echo $photo; ?>">
+        <h3><?php echo $name; ?></h3>
     </div>
 
     <div class="sidebar-links">
-        <a href="profile.html">Profile</a>
-		<a href="index.html">Main</a>
-		<a href="tips.html">Tips</a>
-        <a href="notifications.html">Notifications</a>
-        <a href="support.html">Support</a>
+        <a href="profile.php">Profile</a>
+		<a href="index.php">Main</a>
+		<a href="tips.php">Tips</a>
+        <a href="notifications.php">Notifications</a>
+        <a href="support.php">Support</a>
     </div>
 
     <div class="sidebar-footer">
