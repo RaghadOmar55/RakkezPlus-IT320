@@ -9,8 +9,10 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] != "user") {
 
 $userID = (int) $_SESSION['userID'];
 
-$name= mysqli_query($conn, "SELECT name FROM users WHERE id= $userID");
-$photo= mysqli_query($conn, "SELECT photo FROM users WHERE id= $userID");
+$name= mysqli_query($conn, "SELECT name FROM user WHERE user_id= $userID");
+$photo= mysqli_query($conn, "SELECT photo FROM user WHERE user_id= $userID");
+$notifications= mysqli_query($conn, "SELECT * FROM notification WHERE user_id= $userID ORDER BY date DESC");
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +67,21 @@ $photo= mysqli_query($conn, "SELECT photo FROM users WHERE id= $userID");
 <!-- CONTENT -->
 <div class="notification-container">
     <h1 class="notification-title">Notifications</h1>
-    <div id="notification-list"></div>
+    <div id="notification-list"> 
+    <?php  
+    if (mysqli_num_rows($notifications)==0){ 
+        echo "<div class=\"notification-empty\">".
+                "<h2>No Notifications</h2>".
+                "<p>You’re all caught up 🎉</p>".
+            "</div>";
+    }
+    
+    while ($noti= mysqli_fetch_assoc($notifications)){
+    echo "<button class=\"notification-delete-icon\" onclick=\"deleteNotification(".$noti["notification_id"].")\">✕</button>
+            <data class=\"notification-text\" value=".$noti["notification_id"].">". $noti["message"] ."</data>";
+    }
+    ?>
+    </div>
 </div>
 
 <!-- Footer -->

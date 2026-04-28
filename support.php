@@ -9,8 +9,8 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] != "user") {
 
 $userID = (int) $_SESSION['userID'];
 
-$name= mysqli_query($conn, "SELECT name FROM users WHERE id= $userID");
-$photo= mysqli_query($conn, "SELECT photo FROM users WHERE id= $userID");
+$name= mysqli_query($conn, "SELECT name FROM user WHERE user_id= $userID");
+$photo= mysqli_query($conn, "SELECT photo FROM user WHERE user_id= $userID");
 ?>
 
 <!DOCTYPE html>

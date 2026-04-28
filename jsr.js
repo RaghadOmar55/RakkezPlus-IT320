@@ -1,42 +1,38 @@
-let notificationData = [
-    { id: 1, message: "You have many tips. Check them out!" },
-    { id: 2, message: "Great job! You completed a full study session." },
-	{ id: 3, message: "Tip: Try studying without your phone nearby." }
-];
-
-function renderNotifications() {
-    const container = document.getElementById("notification-list");
-    container.innerHTML = "";
-
-    if (notificationData.length === 0) {
-        container.innerHTML = `
-            <div class="notification-empty">
-                <h2>No Notifications</h2>
-                <p>You’re all caught up 🎉</p>
-            </div>
-        `;
-        return;
-    }
-
-    notificationData.forEach(n => {
-        const card = document.createElement("div");
-        card.className = "notification-card";
-
-        card.innerHTML = `
-            <button class="notification-delete-icon" onclick="deleteNotification(${n.id})">✕</button>
-            <p class="notification-text">${n.message}</p>
-        `;
-
-        container.appendChild(card);
-    });
-}
-
-// ===== DELETE =====
 function deleteNotification(id) {
-    notificationData = notificationData.filter(n => n.id !== id);
-    renderNotifications();
-}
 
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "delete_notification.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+
+                var element = document.querySelector('[value="' + id + '"]');
+                
+                if (element) {
+                    var deleteBtn = element.previousElementSibling; 
+                    deleteBtn.remove();
+                    element.remove();
+                }
+
+                if (document.getElementById("notification-list").innerHTML.trim() === "") {
+                    document.getElementById("notification-list").innerHTML =
+                        '<div class="notification-empty">' +
+                        '<h2>No Notifications</h2>' +
+                        '<p>You’re all caught up 🎉</p>' +
+                        '</div>';
+                }
+
+            } else {
+                console.log("Error: " + xhr.status);
+            }
+        }
+    };
+
+    xhr.send("id=" + id);
+}
 // ===== MENU =====
 function toggleMenu() {
     const sidebar = document.getElementById("sidebar");
@@ -46,4 +42,3 @@ function toggleMenu() {
     overlay.classList.toggle("active");
 }
 
-renderNotifications();
