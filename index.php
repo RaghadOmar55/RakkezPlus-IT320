@@ -1,4 +1,13 @@
 <?php 
+  // 1. تفعيل الجلسة للتحقق من تسجيل الدخول [نظام حماية]
+  session_start(); 
+  
+  // 2. إذا لم يكن هناك مستخدم مسجل، يتم توجيهه لصفحة تسجيل الدخول
+  if (!isset($_SESSION['user_id'])) {
+      header("Location: login.php");
+      exit();
+  }
+
   include 'db_connection.php'; 
   ini_set('display_errors', 1);
   error_reporting(E_ALL);
@@ -10,14 +19,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deep Focus Zone - Rakkez+</title>
     <style>
-        /* ===== إعدادات الصفحة الأساسية  ===== */
+     
         html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            height: 100%; margin: 0; padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #F5F5F5;
-            color: #2E2E2E;
+            background-color: #F5F5F5; color: #2E2E2E;
             overflow-x: hidden;
         }
 
@@ -84,7 +90,7 @@
         <div class="home-logo"><a href="index.php"><img src="logo.jpeg" width="100" alt="Logo"></a></div>
         <div class="home-nav-links">
             <a href="index.php">Main</a>
-            <a href="login.html">Log Out</a>
+            <a href="logout.php">Log Out</a>
         </div>
     </div>
     
@@ -93,15 +99,17 @@
     <div id="notification-sidebar" class="notification-sidebar">
         <div class="notification-sidebar-header">
             <img src="profile.jpg" alt="Profile">
-            <h3>Raghad</h3>
+            <h3><?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'User'; ?></h3>
         </div>
         <div class="notification-sidebar-links">
-            <a href="profile.html">Profile</a>
-            <a href="notifications.html">Notifications</a>
-            <a href="tips.html">Tips</a>
-            <a href="support.html">Support</a>
+            <a href="profile.php">Profile</a>
+            <a href="notifications.php">Notifications</a>
+            <a href="tips.php">Tips</a>
+            <a href="support.php">Support</a>
         </div>
-        <div class="notification-sidebar-footer"><button class="notification-logout-btn">Log Out</button></div>
+        <div class="notification-sidebar-footer">
+            <button class="notification-logout-btn" onclick="location.href='logout.php'">Log Out</button>
+        </div>
     </div>
     <div id="notification-overlay" class="notification-overlay" onclick="toggleMenu()"></div>
 
@@ -223,6 +231,7 @@
                 return;
             }
 
+        
             fetch('save_data.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
