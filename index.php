@@ -1,16 +1,21 @@
 <?php 
-  // 1. تفعيل الجلسة للتحقق من تسجيل الدخول [نظام حماية]
   session_start(); 
-  
-  // 2. إذا لم يكن هناك مستخدم مسجل، يتم توجيهه لصفحة تسجيل الدخول
-  if (!isset($_SESSION['user_id'])) {
-      header("Location: login.php");
-      exit();
-  }
-
-  include 'db_connection.php'; 
+    include 'db_connection.php'; 
   ini_set('display_errors', 1);
   error_reporting(E_ALL);
+  
+ if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 1) {
+    header("Location: login.php?error=You must login first");
+    exit();
+}
+
+$userID = (int) $_SESSION['userID'];
+
+$query = mysqli_query($conn, "SELECT name, photo FROM users WHERE id= $userID");
+$user = mysqli_fetch_assoc($query);
+
+$name = $user['name'];
+$photo = $user['photo'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,20 +50,113 @@
         .home-nav-links a:hover { color: #3A78A1; }
 
         /* ===== SIDEBAR ===== */
-        .notification-sidebar {
-            position: fixed; top: 0; left: -280px; width: 260px; height: 100vh;
-            background: white; box-shadow: 2px 0 15px rgba(0,0,0,0.1);
-            transition: 0.3s; z-index: 2100; display: flex; flex-direction: column;
-        }
-        .notification-sidebar.active { left: 0; }
-        .notification-sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid #eee; }
-        .notification-sidebar-header img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
-        .notification-sidebar-links { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .notification-sidebar-links a { text-decoration: none; color: #2E2E2E; padding: 10px; border-radius: 6px; font-weight: 500; }
-        .notification-sidebar-links a:hover { background: #F5F5F5; color: #3A78A1; }
-        .notification-logout-btn { width: 90%; margin: 20px auto; padding: 10px; background: #F28C28; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .notification-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.3); display: none; z-index: 2050; }
-        .notification-overlay.active { display: block; }
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100vh;
+	font-weight: bold;
+
+    background-color: white;
+    box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+
+    display: flex;
+    flex-direction: column;
+
+    transition: 0.3s ease;
+    z-index: 1200;
+}
+
+/* open */
+.sidebar.active {
+    left: 0;
+}
+
+/* ===== HEADER (PROFILE) ===== */
+.sidebar-header {
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar-header h3 {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+/* ===== LINKS ===== */
+.sidebar-links {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar-links a {
+    text-decoration: none;
+    color: #2E2E2E;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.sidebar-links a:hover {
+    background-color: #F5F5F5;
+    color: #3A78A1;
+}
+
+/* ===== FOOTER ===== */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #F28C28;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    color: white;
+	font-weight: bold;
+}
+
+/* ===== OVERLAY ===== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1100;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 220px;
+    }
+}
 
         /* ===== المحتوى الأساسي ===== */
         .main-content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
@@ -96,22 +194,29 @@
     
     <button class="notification-menu-btn" onclick="toggleMenu()">☰</button>
 
-    <div id="notification-sidebar" class="notification-sidebar">
-        <div class="notification-sidebar-header">
-            <img src="profile.jpg" alt="Profile">
-            <h3><?php echo isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'User'; ?></h3>
-        </div>
-        <div class="notification-sidebar-links">
-            <a href="profile.php">Profile</a>
-            <a href="notifications.php">Notifications</a>
-            <a href="tips.php">Tips</a>
-            <a href="support.php">Support</a>
-        </div>
-        <div class="notification-sidebar-footer">
-            <button class="notification-logout-btn" onclick="location.href='logout.php'">Log Out</button>
-        </div>
+    <<div id="sidebar" class="sidebar">
+
+    <div class="sidebar-header">
+        <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="">
+        <h3><?php echo htmlspecialchars($name); ?></h3>
     </div>
-    <div id="notification-overlay" class="notification-overlay" onclick="toggleMenu()"></div>
+
+    <div class="sidebar-links">
+        <a href="profile.php">Profile</a>
+		<a href="index.php">Main</a>
+		<a href="Tips.php">Tips</a>
+        <a href="notifications.php">Notifications</a>
+        <a href="support.php">Support</a>
+    </div>
+
+    <div class="sidebar-footer">
+        <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
+    </div>
+
+</div>
+
+<!-- OVERLAY -->
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
     <div class="main-content">
         <div class="full-width-container">
