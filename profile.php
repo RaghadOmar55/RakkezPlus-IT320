@@ -4,42 +4,18 @@ require_once "db_connection.php";
 
 $message = "";
 
-
-if (!isset($_SESSION['user_id'])) {
-    $_SESSION['user_id'] = 1;
+if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 1) {
+    header("Location: login.php?error=You must login first");
+    exit();
 }
 
-$user_id = $_SESSION['user_id'];
-
+$user_id = (int) $_SESSION['userID'];
 
 $stmt = $conn->prepare("SELECT id, name, email, password, photo FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
-
-
-if (!$user) {
-    $result = $conn->query("SELECT id, name, email, password, photo FROM users ORDER BY id ASC LIMIT 1");
-    $user = $result->fetch_assoc();
-
-    if ($user) {
-        $_SESSION['user_id'] = $user['id'];
-        $user_id = $user['id'];
-    }
-}
-
-
-if (!$user) {
-    $user = [
-        "id" => 0,
-        "name" => "Test User",
-        "email" => "test@test.com",
-        "password" => "12345678",
-        "photo" => "images/default.png"
-    ];
-    $user_id = 0;
-}
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_name"])) {
@@ -76,9 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_password"])) {
         $message = "Password must be at least 8 characters.";
     } elseif ($newPassword !== $confirmPassword) {
         $message = "Passwords do not match.";
-    } else {
+    } 
+    elseif (password_verify($newPassword, $user["password"])) {
+        $message = "New password must be different from the old password.";
+    } 
+    else {
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
         $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
-        $stmt->bind_param("si", $newPassword, $user_id);
+        $stmt->bind_param("si", $hashedPassword, $user_id);
         $stmt->execute();
 
         $message = "Password updated successfully.";
@@ -119,7 +101,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
 
   <div class="nav-links"> 
     <a href="index.php">Main</a> 
-    <a href="home.html">Log Out</a>
+    <a href="logout.php">Log Out</a>
   </div>
 </div>
 
@@ -127,7 +109,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
 
 <div id="profile-sidebar" class="profile-sidebar">
   <div class="profile-sidebar-header">
-    <img id="sidebar-profile-img" src="<?php echo htmlspecialchars($photo); ?>" alt="Profile">
+    <img id="sidebar-profile-img" src="<?php echo htmlspecialchars($photo); ?>" alt="">
     <h3 id="sidebar-profile-name"><?php echo htmlspecialchars($name); ?></h3>
   </div>
 
@@ -271,7 +253,7 @@ function toggleProfileMenu() {
 }
 
 function goHome() {
-  window.location.href = "home.html";
+  window.location.href = "logout.php";
 }
 
 function toggleImageOptions() {
