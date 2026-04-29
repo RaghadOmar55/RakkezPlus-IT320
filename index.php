@@ -24,7 +24,6 @@ $photo = $user['photo'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deep Focus Zone - Rakkez+</title>
     <style>
-     
         html, body {
             height: 100%; margin: 0; padding: 0;
             font-family: Arial, sans-serif;
@@ -50,115 +49,86 @@ $photo = $user['photo'];
         .home-nav-links a:hover { color: #3A78A1; }
 
         /* ===== SIDEBAR ===== */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px;
-    width: 260px;
-    height: 100vh;
-	font-weight: bold;
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 260px;
+            height: 100vh;
+            font-weight: bold;
+            background-color: white;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s ease;
+            z-index: 1200;
+        }
 
-    background-color: white;
-    box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+        .sidebar.active { left: 0; }
 
-    display: flex;
-    flex-direction: column;
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
 
-    transition: 0.3s ease;
-    z-index: 1200;
-}
+        .sidebar-header img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-/* open */
-.sidebar.active {
-    left: 0;
-}
+        .sidebar-header h3 { margin-top: 10px; font-size: 16px; }
 
-/* ===== HEADER (PROFILE) ===== */
-.sidebar-header {
-    padding: 25px 20px;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-}
+        .sidebar-links {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-.sidebar-header img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+        .sidebar-links a {
+            text-decoration: none;
+            color: #2E2E2E;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 6px;
+        }
 
-.sidebar-header h3 {
-    margin-top: 10px;
-    font-size: 16px;
-}
+        .sidebar-links a:hover {
+            background-color: #F5F5F5;
+            color: #3A78A1;
+        }
 
-/* ===== LINKS ===== */
-.sidebar-links {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+        .sidebar-footer { margin-top: auto; padding: 20px; }
 
-.sidebar-links a {
-    text-decoration: none;
-    color: #2E2E2E;
-    font-weight: 500;
-    padding: 10px;
-    border-radius: 6px;
-}
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #F28C28;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.sidebar-links a:hover {
-    background-color: #F5F5F5;
-    color: #3A78A1;
-}
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1100;
+        }
 
-/* ===== FOOTER ===== */
-.sidebar-footer {
-    margin-top: auto;
-    padding: 20px;
-}
+        .overlay.active { display: block; }
 
-.logout-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #F28C28;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        @media (max-width: 480px) { .sidebar { width: 220px; } }
 
-.logout-btn {
-    color: white;
-	font-weight: bold;
-}
-
-/* ===== OVERLAY ===== */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-
-    background: rgba(0,0,0,0.3);
-    display: none;
-    z-index: 1100;
-}
-
-.overlay.active {
-    display: block;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 480px) {
-    .sidebar {
-        width: 220px;
-    }
-}
-
-        /* ===== المحتوى الأساسي ===== */
         .main-content { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .full-width-container {
             width: 100%; max-width: 800px; background: white; padding: 40px;
@@ -195,28 +165,23 @@ $photo = $user['photo'];
     <button class="notification-menu-btn" onclick="toggleMenu()">☰</button>
 
     <div id="sidebar" class="sidebar">
-
-    <div class="sidebar-header">
-        <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="">
-        <h3><?php echo htmlspecialchars($name); ?></h3>
+        <div class="sidebar-header">
+            <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="">
+            <h3><?php echo htmlspecialchars($name); ?></h3>
+        </div>
+        <div class="sidebar-links">
+            <a href="profile.php">Profile</a>
+            <a href="index.php">Main</a>
+            <a href="Tips.php">Tips</a>
+            <a href="notifications.php">Notifications</a>
+            <a href="support.php">Support</a>
+        </div>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
+        </div>
     </div>
 
-    <div class="sidebar-links">
-        <a href="profile.php">Profile</a>
-		<a href="index.php">Main</a>
-		<a href="Tips.php">Tips</a>
-        <a href="notifications.php">Notifications</a>
-        <a href="support.php">Support</a>
-    </div>
-
-    <div class="sidebar-footer">
-        <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
-    </div>
-
-</div>
-
-<!-- OVERLAY -->
-<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+    <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
     <div class="main-content">
         <div class="full-width-container">
@@ -289,8 +254,17 @@ $photo = $user['photo'];
 
         document.getElementById('start-btn').onclick = function() {
             let mins = parseInt(document.getElementById('duration-select').value);
+            let breakPref = document.getElementById('break-checkbox').checked ? 1 : 0;
             totalSec = mins * 60;
             remainingSec = totalSec;
+
+            // حفظ الجلسة فور البدء لضمان وجود ID لربط أسباب التشتت
+            fetch('save_data.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=save_session&duration=${mins}&break_pref=${breakPref}`
+            });
+
             startTimer();
             this.style.display = 'none';
             document.getElementById('pause-btn').style.display = 'inline-block';
@@ -335,7 +309,6 @@ $photo = $user['photo'];
                 alert("Please select a reason");
                 return;
             }
-
         
             fetch('save_data.php', {
                 method: 'POST',
