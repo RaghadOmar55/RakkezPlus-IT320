@@ -44,8 +44,8 @@ $photo = $user['photo'];
 <div id="sidebar" class="sidebar">
 
     <div class="sidebar-header">
-        <img src="images/<?php echo $photo; ?>">
-        <h3><?php echo $name; ?></h3>
+        <img src="images/<?php echo htmlspecialchars($photo); ?>">
+        <h3><?php echo htmlspecialchars($name); ?></h3>
     </div>
 
     <div class="sidebar-links">

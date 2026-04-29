@@ -38,7 +38,7 @@ $notifications= mysqli_query($conn, "SELECT * FROM notification WHERE id= $userI
 <img src="images/logo.jpeg" width="100"> </a> </div> 
 <div class="nav-links"> 
 <a href="index.php">Main</a> 
-<a href="home.html">Log Out</a> </div> </div>
+<a href="logout.php">Log Out</a> </div> </div>
 
 <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
@@ -46,20 +46,20 @@ $notifications= mysqli_query($conn, "SELECT * FROM notification WHERE id= $userI
 <div id="sidebar" class="sidebar">
 
     <div class="sidebar-header">
-        <img src="images/<?php echo $photo; ?>">
-        <h3><?php echo $name; ?></h3>
+        <img src="images/<?php echo htmlspecialchars($photo); ?>">
+        <h3><?php echo htmlspecialchars($name); ?></h3>
     </div>
 
     <div class="sidebar-links">
         <a href="profile.php">Profile</a>
 		<a href="index.php">Main</a>
-		<a href="tips.php">Tips</a>
+		<a href="Tips.php">Tips</a>
         <a href="notifications.php">Notifications</a>
         <a href="support.php">Support</a>
     </div>
 
     <div class="sidebar-footer">
-        <button class="logout-btn" onclick="location.href='home.html'">Log Out</button>
+        <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
     </div>
 
 </div>
@@ -81,7 +81,7 @@ $notifications= mysqli_query($conn, "SELECT * FROM notification WHERE id= $userI
     
     while ($noti= mysqli_fetch_assoc($notifications)){
     echo "<button class=\"notification-delete-icon\" onclick=\"deleteNotification(".$noti["notification_id"].")\">✕</button>
-            <data class=\"notification-text\" value=".$noti["notification_id"].">". $noti["message"] ."</data>";
+            <data class=\"notification-text\" value=".htmlspecialchars($noti["notification_id"]).">". htmlspecialchars($noti["message"] )."</data>";
     }
     ?>
     </div>
