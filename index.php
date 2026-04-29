@@ -332,7 +332,7 @@ $photo = $user['photo'];
         function submitReason() {
             let reason = document.getElementById('reason-select').value;
             if (reason === "") {
-                alert("Please select a reason (US5 requirement)");
+                alert("Please select a reason");
                 return;
             }
 
