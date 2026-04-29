@@ -77,51 +77,73 @@ h2 { font-size: 28px; }
 .home-nav-links a:hover { color: #3A78A1; }
 
 .notification-menu-btn {
-    position: fixed;
-    top: 15px;
-    left: 20px;
-    font-size: 24px;
-    background: none;
-    color:black;
-    border: none;
-    cursor: pointer;
-    z-index: 1300;
-}
+            position: fixed; top: 15px; left: 20px; font-size: 24px;
+            background: none; border: none; cursor: pointer; z-index: 1300;
+        }
 
-.notification-sidebar {
+.sidebar {
     position: fixed;
     top: 0;
     left: -280px;
     width: 260px;
     height: 100vh;
+	font-weight: bold;
+
     background-color: white;
     box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+
     display: flex;
     flex-direction: column;
+
     transition: 0.3s ease;
     z-index: 1200;
 }
 
-.notification-sidebar.active { left: 0; }
+/* open */
+.sidebar.active {
+    left: 0;
+}
 
-.notification-sidebar-header {
+/* ===== HEADER (PROFILE) ===== */
+.sidebar-header {
     padding: 25px 20px;
     text-align: center;
     border-bottom: 1px solid #eee;
 }
 
-.notification-sidebar-links {
+.sidebar-header img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar-header h3 {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+/* ===== LINKS ===== */
+.sidebar-links {
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.notification-sidebar-links a {
+.sidebar-links a {
     text-decoration: none;
     color: #2E2E2E;
+    font-weight: 500;
     padding: 10px;
+    border-radius: 6px;
 }
+
+.sidebar-links a:hover {
+    background-color: #F5F5F5;
+    color: #3A78A1;
+}
+
 
 .notification-overlay {
     position: fixed;
@@ -131,8 +153,9 @@ h2 { font-size: 28px; }
     display: none;
 }
 
-.notification-overlay.active { display: block; }
 
+
+/* ===== FOOTER ===== */
 .sidebar-footer {
     margin-top: auto;
     padding: 20px;
@@ -235,23 +258,25 @@ input {
 
 <button class="notification-menu-btn" onclick="toggleMenu()">☰</button>
 
-<div id="notification-sidebar" class="notification-sidebar">
-    <div class="notification-sidebar-header">
+    <div id="sidebar" class="sidebar">
+
+    <div class="sidebar-header">
         <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="">
         <h3><?php echo htmlspecialchars($name); ?></h3>
     </div>
 
-    <div class="notification-sidebar-links">
+    <div class="sidebar-links">
         <a href="profile.php">Profile</a>
-        <a href="index.php">Main</a>
-        <a href="Tips.php">Tips</a>
+		<a href="index.php">Main</a>
+		<a href="Tips.php">Tips</a>
         <a href="notifications.php">Notifications</a>
         <a href="support.php">Support</a>
     </div>
-    
-        <div class="sidebar-footer">
+
+    <div class="sidebar-footer">
         <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
     </div>
+
 </div>
 
 
@@ -344,9 +369,17 @@ function resetSearch() {
 }
 
 function toggleMenu() {
-    document.getElementById("notification-sidebar").classList.toggle("active");
-    document.getElementById("notification-overlay").classList.toggle("active");
-}
+            document.getElementById("sidebar").classList.toggle("active");
+            document.getElementById("overlay").classList.toggle("active");
+        }
+
+        let timerInterval, totalSec, remainingSec, isBreak = false;
+        const display = document.getElementById('timer-display');
+        const circle = document.getElementById('progress-circle');
+        const setupArea = document.getElementById('setup-area');
+        const circ = 2 * Math.PI * 100;
+        circle.style.strokeDasharray = circ;
+
 
 window.onload = function() {
     renderList(data);
