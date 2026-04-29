@@ -185,7 +185,7 @@ $photo = $user['photo'];
 </head>
 <body>
     <div class="home-navbar">
-        <div class="home-logo"><a href="index.php"><img src="logo.jpeg" width="100" alt="Logo"></a></div>
+        <div class="home-logo"><a href="index.php"><img src="images/logo.jpeg" width="100" alt="Logo"></a></div>
         <div class="home-nav-links">
             <a href="index.php">Main</a>
             <a href="logout.php">Log Out</a>
@@ -194,7 +194,7 @@ $photo = $user['photo'];
     
     <button class="notification-menu-btn" onclick="toggleMenu()">☰</button>
 
-    <<div id="sidebar" class="sidebar">
+    <div id="sidebar" class="sidebar">
 
     <div class="sidebar-header">
         <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="">
@@ -269,8 +269,8 @@ $photo = $user['photo'];
 
     <script>
         function toggleMenu() {
-            document.getElementById("notification-sidebar").classList.toggle("active");
-            document.getElementById("notification-overlay").classList.toggle("active");
+            document.getElementById("sidebar").classList.toggle("active");
+            document.getElementById("overlay").classList.toggle("active");
         }
 
         let timerInterval, totalSec, remainingSec, isBreak = false;
