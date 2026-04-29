@@ -87,7 +87,7 @@ $email = $user["email"] ?? "test@test.com";
 $password = $user["password"] ?? "";
 $photo = !empty($user["photo"]) ? basename($user["photo"]) : "default.png";
 
-$photoPath = "images/" . $photo;
+$photoPath = $photo;
 ?>
 
 <!DOCTYPE html>
@@ -119,7 +119,7 @@ $photoPath = "images/" . $photo;
 
 <div id="profile-sidebar" class="profile-sidebar">
   <div class="profile-sidebar-header">
-    <img id="sidebar-profile-img" src="<?php echo htmlspecialchars($photoPath); ?>" alt="Profile">
+    <img id="sidebar-profile-img" src="images/<?php echo htmlspecialchars($photoPath); ?>" alt="Profile">
     <h3 id="sidebar-profile-name"><?php echo htmlspecialchars($name); ?></h3>
   </div>
 
@@ -147,7 +147,7 @@ $photoPath = "images/" . $photo;
 
       <div class="profile-left">
         <div class="profile-image-wrap">
-          <img id="main-profile-img" class="profile-main-img" src="<?php echo htmlspecialchars($photoPath); ?>" alt="Profile Picture">
+          <img id="main-profile-img" class="profile-main-img" src="images/<?php echo htmlspecialchars($photoPath); ?>" alt="Profile Picture">
 
           <button class="profile-icon-btn profile-image-edit" onclick="toggleImageOptions()" type="button">
             <img src="images/edit icon.png" alt="Edit">
