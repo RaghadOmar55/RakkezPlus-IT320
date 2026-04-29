@@ -137,7 +137,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
 
       <div class="profile-left">
         <div class="profile-image-wrap">
-          <img id="main-profile-img" class="profile-main-img" src="<?php echo htmlspecialchars($photo); ?>" alt="Profile Picture">
+          <img id="main-profile-img" class="profile-main-img" src="images/<?php echo htmlspecialchars($photo); ?>" alt="Profile Picture">
 
           <button class="profile-icon-btn profile-image-edit" onclick="toggleImageOptions()" type="button">
             <img src="images/edit icon.png" alt="Edit">
