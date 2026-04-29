@@ -2,22 +2,26 @@
 session_start();
 require_once "db_connection.php";
 
-if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 0) {
+if (!isset($_SESSION['userID']) || $_SESSION['isAdmin'] == 0) {
     header("Location: login.php?error=You must login first");
     exit();
 }
 
 $userID = (int) $_SESSION['userID'];
 
-$query = mysqli_query($conn, "SELECT name, photo FROM users WHERE id= $userID");
-$user = mysqli_fetch_assoc($query);
+$stmt = $conn->prepare("SELECT name, photo FROM users WHERE id = ?");
+$stmt->bind_param("i", $userID);
+$stmt->execute();
+$adminResult = $stmt->get_result();
+$adminUser = $adminResult->fetch_assoc();
 
-$name = $user['name'];
-$photo = $user['photo'];
+$name = $adminUser["name"] ?? "Admin";
+$adminPhoto = !empty($adminUser["photo"]) ? basename($adminUser["photo"]) : "default.png";
+$adminPhotoPath = "images/" . $adminPhoto;
 
 $message = "";
 
-/* حذف مستخدم */
+/*  delete User */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_user"])) {
     $delete_id = intval($_POST["delete_id"]);
 
@@ -28,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_user"])) {
     $message = "User deleted successfully.";
 }
 
-/* جلب كل المستخدمين غير الأدمن */
+/* Get user data*/
 $result = $conn->query("SELECT id, name, email, photo FROM users WHERE isAdmin = 0 ORDER BY id ASC");
 ?>
 
@@ -60,7 +64,7 @@ $result = $conn->query("SELECT id, name, email, photo FROM users WHERE isAdmin =
 
 <div id="admin-sidebar" class="admin-sidebar">
   <div class="admin-sidebar-header">
-    <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Admin">
+    <img src="<?php echo htmlspecialchars($adminPhotoPath); ?>" alt="Admin">
     <h3><?php echo htmlspecialchars($name); ?></h3>
   </div>
 
@@ -97,17 +101,18 @@ $result = $conn->query("SELECT id, name, email, photo FROM users WHERE isAdmin =
           <?php if ($result && $result->num_rows > 0): ?>
             <?php while ($user = $result->fetch_assoc()): ?>
               <?php
-                $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
+                $userPhoto = !empty($user["photo"]) ? basename($user["photo"]) : "default.png";
+                $userPhotoPath = "images/" . $userPhoto;
               ?>
               <tr>
                 <td>
-                  <img src="<?php echo htmlspecialchars($photo); ?>" class="admin-user-photo" alt="User">
+                  <img src="<?php echo htmlspecialchars($userPhotoPath); ?>" class="admin-user-photo" alt="User">
                 </td>
                 <td><?php echo htmlspecialchars($user["name"]); ?></td>
                 <td><?php echo htmlspecialchars($user["email"]); ?></td>
                 <td>
                   <form method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                    <input type="hidden" name="delete_id" value="<?php echo $user["id"]; ?>">
+                    <input type="hidden" name="delete_id" value="<?php echo (int)$user["id"]; ?>">
                     <button class="admin-delete-btn" type="submit" name="delete_user">Delete</button>
                   </form>
                 </td>
