@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'db_connection.php'; 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -132,6 +133,32 @@ h2 { font-size: 28px; }
 
 .notification-overlay.active { display: block; }
 
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #F28C28;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    color: white;
+	font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .notification-sidebar {
+        width: 220px;
+    }
+}
+
 input {
     padding: 10px;
     width: 250px;
@@ -215,17 +242,18 @@ input {
     </div>
 
     <div class="notification-sidebar-links">
-        <a href="profile.html">Profile</a>
+        <a href="profile.php">Profile</a>
         <a href="index.php">Main</a>
         <a href="Tips.php">Tips</a>
         <a href="notifications.php">Notifications</a>
         <a href="support.php">Support</a>
     </div>
-</div>
-
-    <div class="sidebar-footer">
+    
+        <div class="sidebar-footer">
         <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
     </div>
+</div>
+
 
 <div id="notification-overlay" class="notification-overlay" onclick="toggleMenu()"></div>
 
