@@ -4,20 +4,29 @@ require_once "db_connection.php";
 
 $message = "";
 
-if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 1) {
+if (!isset($_SESSION['userID'])) {
     header("Location: login.php?error=You must login first");
     exit();
 }
 
 $user_id = (int) $_SESSION['userID'];
 
+/* Main page depends on user role */
+$mainPage = (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1) ? "admin.php" : "index.php";
+
+/* Get user data */
 $stmt = $conn->prepare("SELECT id, name, email, password, photo FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
+if (!$user) {
+    header("Location: login.php?error=User not found");
+    exit();
+}
 
+/* Update name */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_name"])) {
     $newName = trim($_POST["name"]);
 
@@ -32,9 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_name"])) {
     }
 }
 
+/* Update photo */
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_photo"])) {
-    $newPhoto = $_POST["photo"];
+    $newPhoto = basename($_POST["photo"]);
 
     $stmt = $conn->prepare("UPDATE users SET photo = ? WHERE id = ?");
     $stmt->bind_param("si", $newPhoto, $user_id);
@@ -43,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_photo"])) {
     $message = "Profile picture updated successfully.";
 }
 
-
+/* Update password */
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_password"])) {
     $newPassword = $_POST["new_password"];
     $confirmPassword = $_POST["confirm_password"];
@@ -52,11 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_password"])) {
         $message = "Password must be at least 8 characters.";
     } elseif ($newPassword !== $confirmPassword) {
         $message = "Passwords do not match.";
-    } 
-    elseif (password_verify($newPassword, $user["password"])) {
+    } elseif (password_verify($newPassword, $user["password"])) {
         $message = "New password must be different from the old password.";
-    } 
-    else {
+    } else {
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
         $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
@@ -67,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_password"])) {
     }
 }
 
-
+/* Refresh user data after update */
 $stmt = $conn->prepare("SELECT id, name, email, password, photo FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -76,8 +84,10 @@ $user = $result->fetch_assoc();
 
 $name = $user["name"] ?? "Test User";
 $email = $user["email"] ?? "test@test.com";
-$password = $user["password"] ?? "12345678";
-$photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
+$password = $user["password"] ?? "";
+$photo = !empty($user["photo"]) ? basename($user["photo"]) : "default.png";
+
+$photoPath = "images/" . $photo;
 ?>
 
 <!DOCTYPE html>
@@ -94,13 +104,13 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
 
 <div class="navbar"> 
   <div class="logo"> 
-    <a href="index.php"> 
+    <a href="<?php echo $mainPage; ?>"> 
       <img src="images/logo.jpeg" width="100" alt="Rakkez+ Logo">
     </a>
   </div> 
 
   <div class="nav-links"> 
-    <a href="index.php">Main</a> 
+    <a href="<?php echo $mainPage; ?>">Main</a> 
     <a href="logout.php">Log Out</a>
   </div>
 </div>
@@ -109,13 +119,13 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
 
 <div id="profile-sidebar" class="profile-sidebar">
   <div class="profile-sidebar-header">
-    <img id="sidebar-profile-img" src="<?php echo htmlspecialchars($photo); ?>" alt="">
+    <img id="sidebar-profile-img" src="<?php echo htmlspecialchars($photoPath); ?>" alt="Profile">
     <h3 id="sidebar-profile-name"><?php echo htmlspecialchars($name); ?></h3>
   </div>
 
   <div class="profile-sidebar-links">
     <a href="profile.php">Profile</a>
-    <a href="index.php">Main</a>
+    <a href="<?php echo $mainPage; ?>">Main</a>
     <a href="Tips.php">Tips</a>
     <a href="notifications.php">Notifications</a>
     <a href="support.php">Support</a>
@@ -137,7 +147,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
 
       <div class="profile-left">
         <div class="profile-image-wrap">
-          <img id="main-profile-img" class="profile-main-img" src="images/<?php echo htmlspecialchars($photo); ?>" alt="Profile Picture">
+          <img id="main-profile-img" class="profile-main-img" src="<?php echo htmlspecialchars($photoPath); ?>" alt="Profile Picture">
 
           <button class="profile-icon-btn profile-image-edit" onclick="toggleImageOptions()" type="button">
             <img src="images/edit icon.png" alt="Edit">
@@ -147,7 +157,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
         <div id="profile-image-options" class="profile-image-options">
 
           <form method="POST" class="profile-option">
-            <input type="hidden" name="photo" value="images/medicine.png">
+            <input type="hidden" name="photo" value="medicine.png">
             <button type="submit" name="update_photo" class="profile-photo-btn">
               <img src="images/medicine.png" alt="Medicine">
               <span>Medicine</span>
@@ -155,7 +165,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
           </form>
 
           <form method="POST" class="profile-option">
-            <input type="hidden" name="photo" value="images/CS.png">
+            <input type="hidden" name="photo" value="CS.png">
             <button type="submit" name="update_photo" class="profile-photo-btn">
               <img src="images/CS.png" alt="CS">
               <span>CS</span>
@@ -163,7 +173,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
           </form>
 
           <form method="POST" class="profile-option">
-            <input type="hidden" name="photo" value="images/eng.png">
+            <input type="hidden" name="photo" value="eng.png">
             <button type="submit" name="update_photo" class="profile-photo-btn">
               <img src="images/eng.png" alt="Engineering">
               <span>Engineering</span>
@@ -171,7 +181,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
           </form>
 
           <form method="POST" class="profile-option">
-            <input type="hidden" name="photo" value="images/business.png">
+            <input type="hidden" name="photo" value="business.png">
             <button type="submit" name="update_photo" class="profile-photo-btn">
               <img src="images/business.png" alt="Business">
               <span>Business</span>
@@ -179,7 +189,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
           </form>
 
           <form method="POST" class="profile-option">
-            <input type="hidden" name="photo" value="images/default.png">
+            <input type="hidden" name="photo" value="default.png">
             <button type="submit" name="update_photo" class="profile-photo-btn">
               <img src="images/default.png" alt="Default">
               <span>Default</span>
@@ -216,7 +226,7 @@ $photo = !empty($user["photo"]) ? $user["photo"] : "images/default.png";
           </button>
         </div>
 
-        <input id="current-password" type="password" value="<?php echo htmlspecialchars($password); ?>" readonly>
+        <input id="current-password" type="password" value="********" readonly>
 
         <form method="POST">
           <div id="password-edit-box" class="password-edit-box">
