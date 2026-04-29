@@ -2,6 +2,19 @@
 session_start();
 require_once "db_connection.php";
 
+if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 0) {
+    header("Location: login.php?error=You must login first");
+    exit();
+}
+
+$userID = (int) $_SESSION['userID'];
+
+$query = mysqli_query($conn, "SELECT name, photo FROM users WHERE id= $userID");
+$user = mysqli_fetch_assoc($query);
+
+$name = $user['name'];
+$photo = $user['photo'];
+
 $message = "";
 
 /* حذف مستخدم */
@@ -39,7 +52,7 @@ $result = $conn->query("SELECT id, name, email, photo FROM users WHERE isAdmin =
 
   <div class="nav-links"> 
     <a href="admin.php">Main</a> 
-    <a href="home.html">Log Out</a>
+    <a href="logout.php">Log Out</a>
   </div>
 </div>
 
@@ -47,8 +60,8 @@ $result = $conn->query("SELECT id, name, email, photo FROM users WHERE isAdmin =
 
 <div id="admin-sidebar" class="admin-sidebar">
   <div class="admin-sidebar-header">
-    <img src="images/default.png" alt="Admin">
-    <h3>Admin</h3>
+    <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="Admin">
+    <h3><?php echo htmlspecialchars($name); ?></h3>
   </div>
 
   <div class="admin-sidebar-links">
@@ -126,7 +139,7 @@ function toggleAdminMenu() {
 }
 
 function goAdminHome() {
-  window.location.href = "home.html";
+  window.location.href = "logout.php";
 }
 </script>
 

@@ -2,7 +2,7 @@
 session_start();
 include ("db_connection.php");
 
-if (!isset($_SESSION['userID']) || $_SESSION['userType'] != "user") {
+if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 1) {
     header("Location: login.php?error=You must login first");
     exit();
 }
@@ -44,7 +44,7 @@ $photo = $user['photo'];
 <div id="sidebar" class="sidebar">
 
     <div class="sidebar-header">
-        <img src="images/<?php echo htmlspecialchars($photo); ?>">
+        <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="">
         <h3><?php echo htmlspecialchars($name); ?></h3>
     </div>
 

@@ -3,6 +3,19 @@ include 'db_connection.php';
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 1) {
+    header("Location: login.php?error=You must login first");
+    exit();
+}
+
+$userID = (int) $_SESSION['userID'];
+
+$query = mysqli_query($conn, "SELECT name, photo FROM users WHERE id= $userID");
+$user = mysqli_fetch_assoc($query);
+
+$name = $user['name'];
+$photo = $user['photo'];
+
 $query = "SELECT interruption.reason, tip.tip_text 
           FROM tip 
           JOIN interruption ON tip.interruption_id = interruption.interruption_id";
@@ -189,7 +202,7 @@ input {
 
     <div class="home-nav-links">
         <a href="index.php">Main</a>
-        <a href="home.php">Log Out</a>
+        <a href="logout.php">Log Out</a>
     </div>
 </div>
 
@@ -197,8 +210,8 @@ input {
 
 <div id="notification-sidebar" class="notification-sidebar">
     <div class="notification-sidebar-header">
-        <img src="images/default.png">
-        <h3>Ranem</h3>
+        <img src="images/<?php echo htmlspecialchars($photo); ?>" alt="">
+        <h3><?php echo htmlspecialchars($name); ?></h3>
     </div>
 
     <div class="notification-sidebar-links">
@@ -209,6 +222,10 @@ input {
         <a href="support.php">Support</a>
     </div>
 </div>
+
+    <div class="sidebar-footer">
+        <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
+    </div>
 
 <div id="notification-overlay" class="notification-overlay" onclick="toggleMenu()"></div>
 
