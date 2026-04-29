@@ -2,16 +2,16 @@
 include 'db_connection.php';
 session_start();
 
-// الربط مع نظام جنى: نأخذ ID المستخدم الحقيقي اللي سجل دخول
-if (!isset($_SESSION['user_id'])) {
+// الربط مع نظام جنى: تم تعديل المسمى لـ userID ليطابق صفحة الـ Login
+if (!isset($_SESSION['userID'])) {
     die("Error: User not logged in.");
 }
-$user_id = $_SESSION['user_id']; 
+$user_id = $_SESSION['userID']; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
 
-    // 1. حفظ بيانات الجلسة (عند الضغط على Start أو End حسب منطق صفحتك)
+    // 1. حفظ بيانات الجلسة 
     if ($action === 'save_session') {
         $duration = intval($_POST['duration']);
         $break_pref = intval($_POST['break_pref']);
