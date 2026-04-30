@@ -2,19 +2,24 @@
 session_start();
 require_once "db_connection.php";
 
-$message = "";
-
-if (!isset($_SESSION['userID']) || $_SESSION['isAdmin']== 1) {
+if (!isset($_SESSION['userID']) || $_SESSION['isAdmin'] == 0) {
     header("Location: login.php?error=You must login first");
     exit();
 }
 
+$userID = (int) $_SESSION['userID'];
+
+$stmt = $conn->prepare("SELECT name, photo FROM users WHERE id = ?");
+$stmt->bind_param("i", $userID);
+$stmt->execute();
+$adminResult = $stmt->get_result();
+$adminUser = $adminResult->fetch_assoc();
+
+$name = $adminUser["name"] ?? "Admin";
+$adminPhoto = !empty($adminUser["photo"]) ? basename($adminUser["photo"]) : "default.png";
+$adminPhotoPath = "images/" . $adminPhoto;
+
 $user_id = (int) $_SESSION['userID'];
-
-/* Main page depends on user role */
-$mainPage = (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1) ? "admin.php" : "index.php";
-
-/* Get user data */
 $stmt = $conn->prepare("SELECT id, name, email, password, photo FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -95,48 +100,46 @@ $photoPath = $photo;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile - Rakkez+</title>
+  <title>Profile Admin - Rakkez+</title>
   <link rel="stylesheet" href="profile.css">
+  <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="navbar"> 
   <div class="logo"> 
-    <a href="<?php echo $mainPage; ?>"> 
+    <a href="admin.php"> 
       <img src="images/logo.jpeg" width="100" alt="Rakkez+ Logo">
     </a>
   </div> 
 
   <div class="nav-links"> 
-    <a href="<?php echo $mainPage; ?>">Main</a> 
+    <a href="admin.php">Main</a> 
     <a href="logout.php">Log Out</a>
   </div>
 </div>
 
-<button class="menu-btn" onclick="toggleProfileMenu()">☰</button>
+<button class="menu-btn" onclick="toggleAdminMenu()">☰</button>
 
-<div id="profile-sidebar" class="profile-sidebar">
-  <div class="profile-sidebar-header">
-    <img id="sidebar-profile-img" src="images/<?php echo htmlspecialchars($photoPath); ?>" alt="Profile">
-    <h3 id="sidebar-profile-name"><?php echo htmlspecialchars($name); ?></h3>
+<div id="admin-sidebar" class="admin-sidebar">
+  <div class="admin-sidebar-header">
+    <img src="<?php echo htmlspecialchars($adminPhotoPath); ?>" alt="Admin">
+    <h3><?php echo htmlspecialchars($name); ?></h3>
   </div>
 
-  <div class="profile-sidebar-links">
-    <a href="profile.php">Profile</a>
-    <a href="<?php echo $mainPage; ?>">Main</a>
-    <a href="Tips.php">Tips</a>
-    <a href="notifications.php">Notifications</a>
-    <a href="support.php">Support</a>
+  <div class="admin-sidebar-links">
+    <a href="admin_profile.php">Profile</a>
+    <a href="admin.php">Main</a>
+    <a href="admin_support.php">Support</a>
   </div>
 
-  <div class="profile-sidebar-footer">
-    <button class="profile-logout-btn" onclick="goHome()">Log Out</button>
+  <div class="admin-sidebar-footer">
+    <button class="admin-logout-btn" onclick="goAdminHome()">Log Out</button>
   </div>
 </div>
 
-<div id="profile-overlay" class="profile-overlay" onclick="toggleProfileMenu()"></div>
+<div id="admin-overlay" class="admin-overlay" onclick="toggleAdminMenu()"></div>
 
 <main class="profile-page">
   <div class="profile-card">
@@ -257,12 +260,12 @@ $photoPath = $photo;
 </div>
 
 <script>
-function toggleProfileMenu() {
-  document.getElementById("profile-sidebar").classList.toggle("active");
-  document.getElementById("profile-overlay").classList.toggle("active");
+function toggleAdminMenu() {
+  document.getElementById("admin-sidebar").classList.toggle("active");
+  document.getElementById("admin-overlay").classList.toggle("active");
 }
 
-function goHome() {
+function goAdminHome() {
   window.location.href = "logout.php";
 }
 
@@ -294,3 +297,4 @@ function cancelPasswordEdit() {
 
 </body>
 </html>
+

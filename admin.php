@@ -69,9 +69,9 @@ $result = $conn->query("SELECT id, name, email, photo FROM users WHERE isAdmin =
   </div>
 
   <div class="admin-sidebar-links">
-    <a href="profile.php">Profile</a>
+    <a href="admin_profile.php">Profile</a>
     <a href="admin.php">Main</a>
-    <a href="support.php">Support</a>
+    <a href="admin_support.php">Support</a>
   </div>
 
   <div class="admin-sidebar-footer">
