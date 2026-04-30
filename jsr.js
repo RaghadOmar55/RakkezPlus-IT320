@@ -1,37 +1,31 @@
-function deleteNotification(id) {
-
+function deleteNotification(id, button) {
     var xhr = new XMLHttpRequest();
 
     xhr.open("POST", "delete_notification.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
+    xhr.onload = function () {
+        if (xhr.status === 200) {
 
-                var element = document.querySelector('[value="' + id + '"]');
-                
-                if (element) {
-                    var deleteBtn = element.previousElementSibling; 
-                    deleteBtn.remove();
-                    element.remove();
-                }
+            var card = button.closest(".notification-card");
 
-                if (document.getElementById("notification-list").innerHTML.trim() === "") {
-                    document.getElementById("notification-list").innerHTML =
-                        '<div class="notification-empty">' +
-                        '<h2>No Notifications</h2>' +
-                        '<p>You’re all caught up 🎉</p>' +
-                        '</div>';
-                }
+            if (card) {
+                card.remove();
+            }
 
-            } else {
-                console.log("Error: " + xhr.status);
+            var list = document.getElementById("notification-list");
+
+            if (list.querySelectorAll(".notification-card").length === 0) {
+                list.innerHTML =
+                    '<div class="notification-empty">' +
+                    '<h2>No Notifications</h2>' +
+                    '<p>You’re all caught up 🎉</p>' +
+                    '</div>';
             }
         }
     };
 
-    xhr.send("id=" + id);
+    xhr.send("id=" + encodeURIComponent(id));
 }
 // ===== MENU =====
 function toggleMenu() {

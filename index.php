@@ -262,7 +262,7 @@ $photo = $user['photo'];
             fetch('save_data.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=save_session&duration=${mins}&break_pref=${breakPref}`
+                body: `action=start_session&duration=${mins}&break_pref=${breakPref}`
             });
 
             startTimer();
@@ -326,13 +326,23 @@ $photo = $user['photo'];
             let durationPlayed = Math.round((totalSec - remainingSec) / 60);
             let breakPref = document.getElementById('break-checkbox').checked ? 1 : 0;
 
-            if(durationPlayed > 0) {
-                fetch('save_data.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `action=save_session&duration=${durationPlayed}&break_pref=${breakPref}`
-                });
-            }
+    if (durationPlayed > 0) {
+    fetch('save_data.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `action=end_session&duration=${durationPlayed}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "new_notification") {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.log("Error:", error);
+    });
+}
+            
 
             clearInterval(timerInterval);
             remainingSec = 25 * 60;

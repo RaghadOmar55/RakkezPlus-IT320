@@ -79,10 +79,13 @@ $notifications= mysqli_query($conn, "SELECT * FROM notification WHERE id= $userI
             "</div>";
     }
     
-    while ($noti= mysqli_fetch_assoc($notifications)){
-    echo "<button class=\"notification-delete-icon\" onclick=\"deleteNotification(".$noti["notification_id"].")\">✕</button>
-            <data class=\"notification-text\" value=".htmlspecialchars($noti["notification_id"]).">". htmlspecialchars($noti["message"] )."</data>";
-    }
+ while ($noti = mysqli_fetch_assoc($notifications)) {
+    echo "
+    <div class='notification-card' id='notification-" . $noti["notification_id"] . "'>
+        <button type='button' class='notification-delete-icon' onclick='deleteNotification(" . $noti["notification_id"] . ", this)'>✕</button>
+        <p class='notification-text'>" . htmlspecialchars($noti["message"]) . "</p>
+    </div>";
+}
     ?>
     </div>
 </div>

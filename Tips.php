@@ -17,17 +17,33 @@ $user = mysqli_fetch_assoc($query);
 $name = $user['name'];
 $photo = $user['photo'];
 
-$query = "SELECT interruption.reason, tip.tip_text 
-          FROM tip 
-          JOIN interruption ON tip.interruption_id = interruption.interruption_id";
+$sql = "
+SELECT interruption.reason, tip.tip_text
+FROM tip
+JOIN interruption ON tip.interruption_id = interruption.interruption_id
+JOIN study_session ON interruption.session_id = study_session.session_id
+WHERE study_session.id = ?
+ORDER BY tip.tip_id DESC
+";
 
-$result = $conn->query($query);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $userID);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $data = [];
 
-while($row = $result->fetch_assoc()){
-    $data[$row['reason']][] = $row['tip_text'];
+while ($row = $result->fetch_assoc()) {
+    $reason = $row['reason'];
+    $tip = $row['tip_text'];
+
+    if (!isset($data[$reason])) {
+        $data[$reason] = [];
+    }
+
+    $data[$reason][] = $tip;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -301,7 +317,7 @@ input {
 </div>
 
 <script>
-const data = <?php echo json_encode($data); ?>;
+const data = <?php echo json_encode($data, JSON_UNESCAPED_UNICODE); ?>;
 
 function renderList(filtered) {
     const list = document.getElementById("list");
@@ -369,17 +385,10 @@ function resetSearch() {
 }
 
 function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("active");
-            document.getElementById("overlay").classList.toggle("active");
-        }
-
-        let timerInterval, totalSec, remainingSec, isBreak = false;
-        const display = document.getElementById('timer-display');
-        const circle = document.getElementById('progress-circle');
-        const setupArea = document.getElementById('setup-area');
-        const circ = 2 * Math.PI * 100;
-        circle.style.strokeDasharray = circ;
-
+    document.getElementById("sidebar").classList.toggle("active");
+    document.getElementById("notification-overlay").style.display =
+        document.getElementById("sidebar").classList.contains("active") ? "block" : "none";
+}
 
 window.onload = function() {
     renderList(data);
