@@ -65,6 +65,12 @@ if (isset($_POST['login'])) {
     <div class="login-container">
         <h2>Log In</h2>
         <p class="login-subtitle">Welcome back! Let’s keep you focused.</p>
+        
+        <?php if (isset($_GET['error']) && !empty($_GET['error'])) { ?> 
+         <p style="color:red; text-align:center; margin-bottom:15px;">
+          <?php echo htmlspecialchars($_GET['error']); ?>
+         </p>
+        <?php } ?>
 
         <?php if (!empty($error)) { ?>
             <p style="color:red; text-align:center;">
