@@ -2,7 +2,6 @@
 include 'db_connection.php';
 session_start();
 
-// الربط مع نظام جنى: تم تعديل المسمى لـ userID ليطابق صفحة الـ Login
 if (!isset($_SESSION['userID'])) {
     die("Error: User not logged in.");
 }
@@ -33,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'save_interruption') {
         $reason = $_POST['reason'];
         
-        // إذا لسه ما فيه جلسة محفوظة، نحفظ جلسة "مؤقتة" عشان نربط فيها السبب
         if (!isset($_SESSION['current_session_id'])) {
             $sql_init = "INSERT INTO study_session (id, duration, break_preference) VALUES (?, 0, 0)";
             $stmt_init = $conn->prepare($sql_init);
